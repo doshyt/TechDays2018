@@ -1,0 +1,5 @@
+---
+- name: Warn logged in users of attack
+  win_msg:
+    display_seconds: 600
+    msg: The company is under cyberattack. Save your domain admin password on your desktop and go home. Yours, hackerz >_<

@@ -1,0 +1,7 @@
+ansible_user: techdaysuser
+ansible_password: XXXYYYZZZ
+ansible_connection: winrm
+#ansible_port: 5985
+ansible_port: 5986
+ansible_winrm_transport: ntlm
+ansible_winrm_server_cert_validation: ignore

@@ -1,0 +1,37 @@
+---
+- name: Install sysmon
+  win_chocolatey:
+    name: sysmon
+    state: present
+    ignore_checksums: yes
+  register: sysmon_installed
+  tags:
+    - monitoring
+
+- name: Create temp directory
+  win_file:
+    path: C:\Temp\
+    state: directory
+  tags:
+    - monitoring
+
+- name: Download SwiftOnSecurity sysmon conf
+  win_get_url:
+    url: https://raw.githubusercontent.com/SwiftOnSecurity/sysmon-config/master/sysmonconfig-export.xml
+    dest: C:\Temp\sysmonconfig-export.xml
+    force: yes
+  register: sysmon_newconf
+  tags:
+    - monitoring
+
+- name: Install new sysmon configuration
+  win_shell: sysmon.exe -accepteula -i C:\Temp\sysmonconfig-export.xml
+  when: sysmon_installed.changed
+  tags:
+    - monitoring
+
+- name: Activate new sysmon configuration
+  win_shell: sysmon.exe -c C:\Temp\sysmonconfig-export.xml
+  when: sysmon_newconf.changed
+  tags:
+    - monitoring
